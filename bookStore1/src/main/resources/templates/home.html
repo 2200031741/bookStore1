@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <title>Book Store</title>
+    
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f1f1f1; /* Light gray background */
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        background-color: #2f2f2f; /* Dark gray navbar */
+        transition: background-color 0.3s ease;
+      }
+
+      .navbar-brand,
+      .nav-link {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #f5f5f5; /* Light gray text for navbar */
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #d4c8b4; /* Beige hover color */
+      }
+
+      .hero-section {
+        background-image: url('/images/hero-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+      }
+
+      .hero-section h1 {
+        font-size: 4rem;
+        font-weight: 700;
+      }
+
+      .hero-section p {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-bottom: 30px;
+      }
+
+      .btn-custom {
+        background-color: #d4c8b4; /* Beige button background */
+        color: #333; /* Dark text color */
+        border: none;
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-custom:hover {
+        background-color: #bfa48c; /* Darker beige on hover */
+        color: white; /* White text on hover */
+      }
+
+      .container {
+        max-width: 1200px;
+        margin-top: 50px;
+        padding: 30px;
+        background-color: #fff8f0; /* Beige background for content */
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .scrolling-books {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding-bottom: 20px;
+      }
+
+      .card {
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        width: 250px;
+        background-color: #fff8f0; /* Beige card background */
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+      }
+
+      .card img {
+        max-height: 250px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 15px;
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #333; /* Dark gray text for titles */
+      }
+
+      .card-text {
+        color: #666; /* Medium gray for text */
+      }
+
+      img {
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+        max-width: 100%; /* Ensuring the image stays responsive */
+      }
+
+      .navbar-toggler-icon {
+        filter: invert(1); /* Invert the navbar toggle icon for visibility */
+      }
+
+      /* Footer styles */
+      footer {
+        background-color: #2f2f2f;
+        color: #f5f5f5;
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      footer p {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        color: #d4c8b4;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Modal styles */
+      .modal-body input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+      }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Book Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="available_books">Available Books</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="my_books">My Books</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="catalog">Catalog</a> <!-- Catalog Button -->
+            </li>
+          </ul>
+          <div>
+            <a class="nav-link" href="book_register">New Book Register</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div>
+            <h1 style="color: black;">Welcome to LEXA BOOKS</h1> <!-- Black text for the heading -->
+            <p style="color: black;">Discover the best books, manage your library, and enjoy an enhanced reading experience.</p> <!-- Black text for the paragraph -->
+            <a href="available_books" class="btn-custom">Explore Available Books</a>
+        </div>
+    </div>
+
+    <!-- Main Content: Featured Books -->
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Books</h2>
+        <div class="scrolling-books">
+            <div class="card">
+                <img src="https://via.placeholder.com/250x350?text=Book+1" class="card-img-top" alt="Book Image">
+                <div class="card-body">
+                    <h5 class="card-title">The Great Gatsby</h5>
+                    <p class="card-text">F. Scott Fitzgerald</p>
+                    <a href="#" class="btn-custom">View Details</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/250x350?text=Book+2" class="card-img-top" alt="Book Image">
+                <div class="card-body">
+                    <h5 class="card-title">1984</h5>
+                    <p class="card-text">George Orwell</p>
+                    <a href="#" class="btn-custom">View Details</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/250x350?text=Book+3" class="card-img-top" alt="Book Image">
+                <div class="card-body">
+                    <h5 class="card-title">Moby Dick</h5>
+                    <p class="card-text">Herman Melville</p>
+                    <a href="#" class="btn-custom">View Details</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://via.placeholder.com/250x350?text=Book+4" class="card-img-top" alt="Book Image">
+                <div class="card-body">
+                    <h5 class="card-title">Pride and Prejudice</h5>
+                    <p class="card-text">Jane Austen</p>
+                    <a href="#" class="btn-custom">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rate Us Button -->
+        <div class="text-center mt-5">
+            <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#rateUsModal">Rate Us</button>
+        </div>
+    </div>
+
+    <!-- Rate Us Modal -->
+    <div class="modal fade" id="rateUsModal" tabindex="-1" aria-labelledby="rateUsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rateUsModalLabel">Rate Us</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="rating">Rate our service (1-5):</label>
+                    <input type="number" id="rating" min="1" max="5" class="form-control" placeholder="Enter your rating (1-5)">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-custom" data-bs-dismiss="modal" id="submitRatingBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thank You Message -->
+    <div class="container" id="thankYouMessage" style="display: none;">
+        <h3>Thank you for rating us!</h3>
+        <p>Your feedback helps us improve our services.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 LEXA BOOKS. All Rights Reserved.</p>
+        <p>Contact Us: <a href="mailto:contact@lexabooks.com">lexabooks@gmail.com</a></p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+      document.getElementById('submitRatingBtn').addEventListener('click', function() {
+        const rating = document.getElementById('rating').value;
+        if (rating >= 1 && rating <= 5) {
+          // Redirect to home page with a thank you message
+          window.location.href = '/?thankYou=true';
+        } else {
+          alert('Please enter a valid rating between 1 and 5.');
+        }
+      });
+
+      // Display thank you message on home page if URL contains thankYou=true
+      if (window.location.search.includes('thankYou=true')) {
+        document.getElementById('thankYouMessage').style.display = 'block';
+      }
+    </script>
+</body>
+</html>
